@@ -68,6 +68,8 @@ public class EEGModel {
 	 */
 	public void addMeasurement(Measurement measurement) {
 		measurements.add(measurement);
+		
+		
 		if (gui != null)
 			gui.plotMeasurement(measurement);
 	}
@@ -78,6 +80,7 @@ public class EEGModel {
 	 * @return Array of Measurements.
 	 */
 	public Measurement[] getMeasurements() {
+		
 		Measurement[] am = new Measurement[measurements.size()];
 		return measurements.toArray(am);
 	}
