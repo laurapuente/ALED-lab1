@@ -80,7 +80,6 @@ public class EEGModel {
 	 * @return Array of Measurements.
 	 */
 	public Measurement[] getMeasurements() {
-		
 		Measurement[] am = new Measurement[measurements.size()];
 		return measurements.toArray(am);
 	}
