@@ -25,7 +25,7 @@ import es.upm.aled.lab1.gui.EEG_GUI;
  */
 public class EEGModel {
 
-	protected List<Measurement> measurements = new ArrayList<Measurement>();
+	protected List<Measurement> measurements = new ArrayList<Measurement>(); //atributo de lista 342adde medidas
 	protected EEG_GUI gui;
 
 	/**
@@ -55,9 +55,9 @@ public class EEGModel {
 	 * 
 	 * @param measurements The Measurements that make up the EEGModel.
 	 */
-	public EEGModel(Measurement[] measurements) {
-		// TODO
-		
+	public EEGModel(Measurement[] measurements) { //CONSTRUCTOR
+		for(Measurement m: measurements)
+			this.addMeasurement(m);
 	}
 
 	/**
@@ -66,10 +66,8 @@ public class EEGModel {
 	 * 
 	 * @param measurement The Measurement to be added.
 	 */
-	public void addMeasurement(Measurement measurement) {
+	public void addMeasurement(Measurement measurement) {//Método que añade medida a la lista de electros
 		measurements.add(measurement);
-		
-		
 		if (gui != null)
 			gui.plotMeasurement(measurement);
 	}
@@ -90,10 +88,8 @@ public class EEGModel {
 	 * @param filter Filter to be applied over the EEGModel.
 	 * @return The new EEGModel.
 	 */
-	public EEGModel filter(Filter filter) {
-		// TODO
-		
-		return null;
+	public EEGModel filter(Filter filter) { //Método filter que recibe el filtro que quieres que se aplique y devuelve otro EEGModel filtrado
+		return filter.applyFilter(this);//El this permite aplicar el método sobre sí mismo
 	}
 
 	/**
@@ -132,7 +128,20 @@ public class EEGModel {
 	 * @throws IOException Thrown if the file can't be written.
 	 */
 	public void saveFile(String fileName) throws IOException {
-		// TODO
+		File file = new File(fileName);//Creamos un objeto manejador de ficheros
+		FileOutputStream fileOutputStream = new FileOutputStream(file);//Voy a escribir en el fichero, no leer
+		PrintStream ps = new PrintStream(fileOutputStream);//Objeto capaz de imprimir en el fichero
+		//ps.println("dfekkfpoir4") es la sentencia con la que escribimos cosas en el fichero
+		
+		int index = 0; //Número que vamos a ir imprimiendo por pantalla
+		for(Measurement m: this.measurements) {
+			ps.print((index++)%256);//Imprime en el fichero el valor por el que va el índice, lo deja incrementado, pero sin que se pase de 255
+			for(int i = 0; i<m.numChannels(); i++)
+				ps.print(", " + m.getChannel(i));
+			ps.println();
+		}
+		ps.close();// el mismo que ha abierto el fichero tiene que cerrarlo
+	
 		
 	}
 
@@ -250,13 +259,25 @@ public class EEGModel {
 	public static void main(String[] args) {
 		if (args.length > 0) {
 			EEGModel eeg = new EEGModel(args[0]);
+			
+			int min = 2750;
+			int max = 5750;
+			int[] validChannels = {8, 9, 10};
+			
+			eeg = eeg.filter(new FilterExtractPeriod(min, max));//Guardo en la variable eeg el objeto filtrado directamente
+			eeg = eeg.filter(new FilterExtractChannels(validChannels));
+			
 			eeg.plotData();
-			// TODO
+			
 			
 		} else {
 			EEGModel eeg = new EEGModel();
-			eeg.createSyntheticData(1000);
-			// TODO
+			eeg.createSyntheticData(1000);//número de muestras que quiero que se muestren
+			try {
+				eeg.saveFile("Synthetic.txt");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}//Hay que avisar de la excepcion ya que el metodo saveFile lleva una
 			
 		}
 	}

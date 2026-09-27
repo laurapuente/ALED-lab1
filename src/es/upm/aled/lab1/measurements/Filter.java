@@ -14,5 +14,5 @@ public interface Filter {
 	 * @param eeg Model to be filtered.
 	 * @return Filtered model.
 	 */
-	EEGModel applyFilter(EEGModel eeg);
+	EEGModel applyFilter(EEGModel eeg);//una interfaz es solo una lista de métodos que luego va a programar otro. Reciben un electro completo y luego devuelven otro
 }

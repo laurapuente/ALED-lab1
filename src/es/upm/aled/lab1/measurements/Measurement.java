@@ -9,7 +9,7 @@ package es.upm.aled.lab1.measurements;
  */
 public class Measurement {
 
-	private float[] channels;
+	private float[] channels;//array de numeros reales tipo float llamado channels
 
 	/**
 	 * Builds a new measurement from an array of floats containing the values
@@ -17,7 +17,7 @@ public class Measurement {
 	 * 
 	 * @param channels The values measured by each channel.
 	 */
-	public Measurement(float[] channels) {
+	public Measurement(float[] channels) { //constructor con el nombre de la clase que recibe el array
 		this.channels = channels;
 	}
 
@@ -27,7 +27,7 @@ public class Measurement {
 	 * @param numChannel The channel number, starting from 0.
 	 * @return The value measured.
 	 */
-	public float getChannel(int numChannel) {
+	public float getChannel(int numChannel) { //le dices el canal y te dice el numero correspondiente a ese canal
 		return channels[numChannel];
 	}
 
