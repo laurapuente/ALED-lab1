@@ -274,6 +274,7 @@ public class EEGModel {
 			EEGModel eeg = new EEGModel();
 			eeg.createSyntheticData(1000);//número de muestras que quiero que se muestren
 			try {
+				
 				eeg.saveFile("Synthetic.txt");
 			} catch (IOException e) {
 				e.printStackTrace();
